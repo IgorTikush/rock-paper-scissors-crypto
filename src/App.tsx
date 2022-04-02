@@ -1,24 +1,59 @@
-import React from 'react';
-import Logo from './icons/logo';
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
+
+import { Chat } from './styles/styles'
 import './App.css';
 
+const socket = io(`http://localhost:3000`);
 function App() {
+  const [inputText, setInputText] = useState<string>('');
+  const [chatText, setChatText] = useState<string[]>([]);
+
+  useEffect(() => {
+    socket.on('message', ({ data }) => {
+      setChatText([
+        ...chatText,
+        data,
+      ]);
+      console.log('messageReceive', data)
+    });
+
+    return () => {
+      socket.off('message');
+    }
+  })
+
+  const handleChatTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(event.target.value);
+  }
+
+  const submitChatText = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    socket.emit('message', { data: inputText });
+    setInputText('');
+  }
+
+  const getChat = () => {
+    return (
+      <ul>
+        {chatText.map((message: string, index: number) => {
+          return <li key={index}>{message}</li>;
+        })}
+      </ul>
+    );
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <Logo />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Chat>
+        <form onSubmit={submitChatText}>
+          <input type={'text'} value={inputText} name={'chatInput'} onChange={handleChatTextChange} />
+        </form>
+        <div>
+          {getChat()}
+        </div>
+      </Chat>
     </div>
   );
 }
