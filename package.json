@@ -34,8 +34,7 @@
     "start:dev": "webpack --watch --mode development",
     "build": "webpack --mode development",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "webpack -p"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
