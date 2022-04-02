@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { Chat } from './styles/styles'
 import './App.css';
 
-const socket = io(`http://localhost:3000`);
+const socket = io(`https://rock-paper-scissors-back.herokuapp.com`);
 function App() {
   const [inputText, setInputText] = useState<string>('');
   const [chatText, setChatText] = useState<string[]>([]);
