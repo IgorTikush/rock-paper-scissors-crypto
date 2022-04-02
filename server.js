@@ -7,7 +7,7 @@ const publicDirectory = path.join(__dirname, '../dist');
 const app = express();
 app.use(express.static(publicDirectory));
 app.get('/', function (req, res) {
-  console.log(readdirSync(__dirname));
+  console.log(readdirSync(path.join(__dirname, 'dist')));
   res.sendFile(path.join(publicDirectory, "index.html"));
 })
 
