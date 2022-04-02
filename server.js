@@ -1,14 +1,16 @@
 const express = require('express');
 const path = require('path');
+const {readdirSync} = require('fs');
 
-const publicDirectory = path.join(__dirname, '../dist')
+const publicDirectory = path.join(__dirname, '../dist');
 
-const app = express()
-
+const app = express();
+app.use(express.static(publicDirectory));
 app.get('/', function (req, res) {
-  res.sendFile(path.join(publicDirectory, "index.html"))
+  console.log(readdirSync(__dirname));
+  res.sendFile(path.join(publicDirectory, "index.html"));
 })
 
-app.use(express.static(publicDirectory))
 
-app.listen(process.env.PORT || 3000)
+
+app.listen(process.env.PORT || 3000);
