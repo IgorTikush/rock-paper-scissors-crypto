@@ -9,7 +9,7 @@ app.use(express.static(publicDirectory));
 app.get('/', function (req, res) {
   console.log(readdirSync(path.join(__dirname, 'dist')));
   res.sendFile(path.join(publicDirectory, 'index.html'));
-})
+});
 
 
 
